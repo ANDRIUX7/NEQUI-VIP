@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="https://raw.githubusercontent.com/ANDRIUX7/VIP.COM/refs/heads/main/Hacker.ico" type="image/x-icon">
+<title>NEQUI</title>
+<style>
+    body {
+        background-color: #121212;
+        font-family: 'Segoe UI', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    .container {
+        background: #1e1e1e;
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        width: 320px;
+        box-shadow: 0px 0px 20px rgba(0,0,0,0.5);
+    }
+    h2 { color: white; margin-bottom: 20px; }
+    input {
+        width: 90%; padding: 10px; border: none; border-radius: 8px;
+        margin-bottom: 15px; background: #2c2c2c; color: white;
+        text-align: center; font-size: 16px;
+    }
+    .btn {
+        padding: 8px 15px; border: none; border-radius: 8px; font-size: 14px;
+        cursor: pointer; margin-top: 10px;
+    }
+    .btn-enter { background: linear-gradient(90deg, #ff4b2b, #ff416c); color: white; }
+    .btn-whatsapp {
+        background: #128c7e; color: white; text-decoration: none;
+        display: none; padding: 10px 15px; font-size: 14px;
+    }
+    .error { color: #ff4b4b; font-size: 14px; margin-top: 10px; display: none; }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Acceso Privado</h2>
+    <input type="password" id="password" placeholder="Contraseña" autocomplete="off">
+    <br>
+    <button class="btn btn-enter" onclick="checkPassword()">Entrar</button>
+    <p class="error" id="errorMsg"></p>
+    <a id="whatsappBtn" class="btn btn-whatsapp" target="_blank">Contacto WhatsApp</a>
+</div>
+
+<script>
+function checkPassword() {
+    const passInput = document.getElementById("password");
+    const errorMsg = document.getElementById("errorMsg");
+    const whatsappBtn = document.getElementById("whatsappBtn");
+    const password = passInput.value.trim();
+
+    errorMsg.style.display = "none";
+    whatsappBtn.style.display = "none";
+
+    // Clave maestra
+    if (password === "ANDRIUXVIP7") {
+        sessionStorage.setItem("loggedIn", "true");
+        window.location.href = "NEQUI.html";
+        return;
+    }
+
+    fetch("vip.json")
+    .then(res => res.json())
+    .then(data => {
+        // Buscar dentro del array
+        const info = data.find(item => item.contraseña === password);
+
+        if (!info) {
+            mostrarError("❌ Contraseña incorrecta Contacta a Andriux", 
+                         "https://wa.me/573144474637?text=Hola%20Andriux%20quiero%20la%20contraseña%20VIP");
+            return;
+        }
+
+        // Obtener fecha actual en hora Colombia (GMT-5)
+        const ahoraColombia = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Bogota" }));
+        const expira = new Date(info.fecha_vencimiento.replace(" ", "T") + "-05:00");
+
+        if (ahoraColombia > expira) {
+            mostrarError("📅 Tu contraseña ha vencido, Contacta a Andriux", 
+                         "https://wa.me/573144474637?text=Hola%20Andriux%20quiero%20renovar%20mi%20servicio");
+            return;
+        }
+
+        // Si es válida
+        sessionStorage.setItem("loggedIn", "true");
+        window.location.href = "NEQUI.html";
+    })
+    .catch(err => {
+        console.error("Error cargando vip.json:", err);
+        mostrarError("⚠️ Error ",
+                     "https://wa.me/573144474637");
+    });
+
+    function mostrarError(mensaje, enlace) {
+        errorMsg.innerText = mensaje;
+        errorMsg.style.display = "block";
+        whatsappBtn.style.display = "inline-block";
+        whatsappBtn.href = enlace;
+        passInput.value = "";
+        passInput.focus();
+    }
+}
+</script>
+
+</body>
+</html>
+
