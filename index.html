@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/ANDRIUX7/VIP.COM/refs/heads/main/Hacker.ico">
-  <title>Nequi</title>
+  <title>Editar y Descargar Comprobante</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
@@ -20,7 +19,7 @@
     }
 
     #introFormulario {
-      background: url('https://raw.githubusercontent.com/ANDRIUX7/VIP.COM/refs/heads/main/HACKERS.jpg') no-repeat center center;
+      background: url('https://i.imgur.com/qythA4Q.jpeg') no-repeat center center;
       background-size: cover;
       width: 100vw;
       height: 100vh;
@@ -218,9 +217,9 @@
   <div id="introFormulario">
     <div class="formulario">
       <h3 class="etiqueta">Generar Comprobante</h3>
-      <input type="text" id="inputNombre" placeholder="Nombre" class="etiqueta">
+      <input type="text" id="inputNombre" placeholder="Para (Nombre)" class="etiqueta">
       <input type="text" id="inputValor" placeholder="Valor" class="etiqueta" oninput="formatearValor()">
-      <input type="text" id="inputNumero" placeholder="Número" class="etiqueta" maxlength="10" oninput="validarNequi()">
+      <input type="text" id="inputNumero" placeholder="Número celular" class="etiqueta" maxlength="10" oninput="validarNequi()">
       <div id="errorMensaje" class="error-mensaje"></div>
       <button class="btn" onclick="generarComprobante()">Generar</button>
     </div>
